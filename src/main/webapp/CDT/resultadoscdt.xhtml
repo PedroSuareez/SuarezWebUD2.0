@@ -1,100 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
-    <title>Resultados CDT</title>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+	<title>Resultados CDT</title>
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
 </h:head>
 
 <h:body>
 
-    <f:metadata>
-        <f:event type="preRenderView"
-                 listener="#{cdtBean.cargarLista}"/>
-    </f:metadata>
+	<!-- CORRECCIÓN: f:metadata como primer hijo de h:body -->
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{cdtBean.cargarLista}" />
+	</f:metadata>
 
-<div class="container mt-5">
+	<div class="container mt-5">
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <a href="../index.xhtml" class="btn btn-outline-secondary btn-sm">← Inicio</a>
-    <h4 class="mb-0">CDTs Registrados</h4>
-    <h:link value="+ Registrar CDT"
-            outcome="formulariocdt"
-            styleClass="btn btn-outline-primary btn-sm"/>
-</div>
+		<div class="d-flex justify-content-between align-items-center mb-3">
+			<h:link value="← Inicio" outcome="/index"
+				styleClass="btn btn-outline-secondary btn-sm" />
+			<h4 class="mb-0">CDTs Registrados</h4>
+			<h:link value="+ Registrar CDT" outcome="formulariocdt"
+				styleClass="btn btn-outline-primary btn-sm" />
+		</div>
 
-    <div class="card shadow-sm">
-        <div class="card-body p-0">
+		<div class="card shadow-sm">
+			<div class="card-body p-0">
 
-            <h:dataTable value="#{cdtBean.listaCdt}"
-                         var="cdt"
-                         styleClass="table table-striped table-hover mb-0"
-                         headerClass="table-primary">
+				<h:dataTable value="#{cdtBean.listaCdt}" var="cdt"
+					styleClass="table table-striped table-hover mb-0"
+					headerClass="table-primary">
 
-                <h:column>
-                    <f:facet name="header">ID</f:facet>
-                    #{cdt.id}
-                </h:column>
+					<h:column>
+						<f:facet name="header">ID</f:facet>
+						#{cdt.id}
+					</h:column>
 
-                <h:column>
-                    <f:facet name="header">Inversión</f:facet>
-                    <h:outputText value="#{cdt.inversion}">
-                        <f:convertNumber type="currency" currencySymbol="$"
-                                         groupingUsed="true" minFractionDigits="2"/>
-                    </h:outputText>
-                </h:column>
+					<!-- CORRECCIÓN: columna Nombre agregada -->
+					<h:column>
+						<f:facet name="header">Nombre</f:facet>
+						#{cdt.nombre}
+					</h:column>
 
-                <h:column>
-                    <f:facet name="header">Tasa</f:facet>
-                    <h:outputText value="#{cdt.interes}">
-                        <f:convertNumber type="percent" minFractionDigits="2"/>
-                    </h:outputText>
-                </h:column>
+					<!-- CORRECCIÓN: columna Inversión agregada -->
+					<h:column>
+						<f:facet name="header">Inversión</f:facet>
+						<h:outputText value="#{cdt.montoInversion}">
+							<f:convertNumber type="currency" currencySymbol="$"
+								minFractionDigits="2" />
+						</h:outputText>
+					</h:column>
 
-                <h:column>
-                    <f:facet name="header">Plazo (días)</f:facet>
-                    #{cdt.plazo}
-                </h:column>
+					<h:column>
+						<f:facet name="header">Tasa</f:facet>
+						<h:outputText value="#{cdt.interes}">
+							<f:convertNumber type="percent" minFractionDigits="2" />
+						</h:outputText>
+					</h:column>
 
-                <h:column>
-                    <f:facet name="header">Ganancia</f:facet>
-                    <h:outputText value="#{cdt.ganancia}"
-                                  styleClass="text-success fw-semibold">
-                        <f:convertNumber type="currency" currencySymbol="$"
-                                         minFractionDigits="2"/>
-                    </h:outputText>
-                </h:column>
+					<h:column>
+						<f:facet name="header">Plazo (días)</f:facet>
+						#{cdt.plazo}
+					</h:column>
 
-                <h:column>
-                    <f:facet name="header">Impuesto (4%)</f:facet>
-                    <h:outputText value="#{cdt.impuesto}"
-                                  styleClass="text-danger">
-                        <f:convertNumber type="currency" currencySymbol="$"
-                                         minFractionDigits="2"/>
-                    </h:outputText>
-                </h:column>
+					<!-- CORRECCIÓN: era gananciaNeta duplicada, ahora muestra gananciaBruta -->
+					<h:column>
+						<f:facet name="header">Ganancia Bruta</f:facet>
+						<h:outputText value="#{cdt.gananciaBruta}">
+							<f:convertNumber type="currency" currencySymbol="$"
+								minFractionDigits="2" />
+						</h:outputText>
+					</h:column>
 
-                <h:column>
-                    <f:facet name="header">Valor Futuro</f:facet>
-                    <h:outputText value="#{cdt.valorFuturo}"
-                                  styleClass="fw-bold">
-                        <f:convertNumber type="currency" currencySymbol="$"
-                                         minFractionDigits="2"/>
-                    </h:outputText>
-                </h:column>
+					<h:column>
+						<f:facet name="header">Impuesto (4%)</f:facet>
+						<h:outputText value="#{cdt.impuesto}" styleClass="text-danger">
+							<f:convertNumber type="currency" currencySymbol="$"
+								minFractionDigits="2" />
+						</h:outputText>
+					</h:column>
 
-            </h:dataTable>
+					<h:column>
+						<f:facet name="header">Ganancia Neta</f:facet>
+						<h:outputText value="#{cdt.gananciaNeta}"
+							styleClass="text-success fw-semibold">
+							<f:convertNumber type="currency" currencySymbol="$"
+								minFractionDigits="2" />
+						</h:outputText>
+					</h:column>
 
-        </div>
-    </div>
+					<h:column>
+						<f:facet name="header">Valor Futuro</f:facet>
+						<h:outputText value="#{cdt.valorFuturo}" styleClass="fw-bold">
+							<f:convertNumber type="currency" currencySymbol="$"
+								minFractionDigits="2" />
+						</h:outputText>
+					</h:column>
 
-</div>
-<footer class="fixed-bottom bg-dark text-white text-center py-2">
-    Pedro Suarez | Programación Avanzada | [302] | Universidad Distrital | 2026
-</footer>
+				</h:dataTable>
+
+			</div>
+		</div>
+
+	</div>
+	<footer class="fixed-bottom bg-dark text-white text-center py-2">
+		Pedro Suarez | Programación Avanzada | [302] | Universidad Distrital | 2026
+	</footer>
 </h:body>
 </html>

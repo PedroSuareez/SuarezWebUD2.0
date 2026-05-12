@@ -6,37 +6,47 @@ import java.util.ArrayList;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
-import co.edu.udistrital.CDTmodel.*;
+import co.edu.udistrital.CDTmodel.CDT;
+import co.edu.udistrital.CDTservice.CDTService;
 
 @Named("cdtBean")
 @ViewScoped
 public class CDTBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private CDT dto = new CDT();
-    private ArrayList<CDT> listaCdt;
+	private CDT dto = new CDT();
+	private ArrayList<CDT> listaCdt;
+	private CDTService service = new CDTService();
 
-    public CDTBean() {
-        super();
-    }
+	public CDTBean() {
+		super();
+	}
 
-    public String registrar() {
-        dto.setId(CDTDAO.lista_C.size() + 1L); // ID auto-incremental
-        dto.calcular();
-        CDTDAO.lista_C.add(dto);
-        listaCdt = CDTDAO.lista_C;
-        dto = new CDT(); // Limpio el formulario
-        return "/CDT/resultadoscdt?faces-redirect=true";
-    }
+	public String registrar() {
+		service.registrar(dto);
+		listaCdt = service.obtenerTodos();
+		dto = new CDT();
+		return "/CDT/resultadoscdt?faces-redirect=true";
+	}
 
-    public void cargarLista() {
-        listaCdt = CDTDAO.lista_C;
-    }
+	public void cargarLista() {
+		listaCdt = service.obtenerTodos();
+	}
 
-    public CDT getDto() { return dto; }
-    public void setDto(CDT dto) { this.dto = dto; }
+	public CDT getDto() {
+		return dto;
+	}
 
-    public ArrayList<CDT> getListaCdt() { return listaCdt; }
-    public void setListaCdt(ArrayList<CDT> listaCdt) { this.listaCdt = listaCdt; }
+	public void setDto(CDT dto) {
+		this.dto = dto;
+	}
+
+	public ArrayList<CDT> getListaCdt() {
+		return listaCdt;
+	}
+
+	public void setListaCdt(ArrayList<CDT> l) {
+		this.listaCdt = l;
+	}
 }

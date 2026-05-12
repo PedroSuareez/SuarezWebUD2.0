@@ -2,43 +2,113 @@ package co.edu.udistrital.CDTmodel;
 
 import java.io.Serializable;
 
-public class CDT extends Inversion implements Serializable {
+public class CDT extends ClienteCDT implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private double ganancia;
-    private double valorFuturo;
-    private double impuesto;
+	private Inversion inversion; // ← composición
 
-    private static final double ANIO = 360.0;
+	private double gananciaBruta;
+	private double impuesto;
+	private double gananciaNeta;
+	private double valorFuturo;
 
-    public CDT() {
-        super();
-    }
+	private static final double ANIO = 360.0;
 
-    public CDT(long id, double inversion, double interes, double plazo) {
-        super(id, inversion, interes, plazo);
-    }
+	public CDT() {
+		super();
+		this.inversion = new Inversion();
+	}
 
-    public void calcular() {
-        ganancia     = getInversion() * (getInteres() * (getPlazo() / ANIO));
-        valorFuturo  = getInversion() + ganancia;
-        impuesto     = ganancia * 0.04;
-    }
+	public CDT(String nombre, String correo, Inversion inversion) {
+		super(nombre, correo);
+		this.inversion = inversion;
+	}
 
-    public double getGanancia()    { return ganancia; }
-    public double getValorFuturo() { return valorFuturo; }
-    public double getImpuesto()    { return impuesto; }
+	public void calcular() {
+		gananciaBruta = inversion.getInversion() * (inversion.getInteres() * (inversion.getPlazo() / ANIO));
+		impuesto = gananciaBruta * 0.04;
+		gananciaNeta = gananciaBruta - impuesto;
+		valorFuturo = inversion.getInversion() + gananciaNeta;
+	}
 
-    public void setGanancia(double ganancia)       { this.ganancia = ganancia; }
-    public void setValorFuturo(double valorFuturo) { this.valorFuturo = valorFuturo; }
-    public void setImpuesto(double impuesto)        { this.impuesto = impuesto; }
+	// Getters de Inversion delegados (para el formulario JSF)
+	public long getId() {
+		return inversion.getId();
+	}
 
-    @Override
-    public String toString() {
-        return "CDT [" + super.toString() +
-               ", ganancia=" + ganancia +
-               ", valorFuturo=" + valorFuturo +
-               ", impuesto=" + impuesto + "]";
-    }
+	public void setId(long id) {
+		inversion.setId(id);
+	}
+
+	public double getMontoInversion() {
+		return inversion.getInversion();
+	}
+
+	public void setMontoInversion(double v) {
+		inversion.setInversion(v);
+	}
+
+	public double getInteres() {
+		return inversion.getInteres();
+	}
+
+	public void setInteres(double i) {
+		inversion.setInteres(i);
+	}
+
+	public double getPlazo() {
+		return inversion.getPlazo();
+	}
+
+	public void setPlazo(double p) {
+		inversion.setPlazo(p);
+	}
+
+	// Getters resultados
+	public double getGananciaBruta() {
+		return gananciaBruta;
+	}
+
+	public double getImpuesto() {
+		return impuesto;
+	}
+
+	public double getGananciaNeta() {
+		return gananciaNeta;
+	}
+
+	public double getValorFuturo() {
+		return valorFuturo;
+	}
+
+	public void setGananciaBruta(double g) {
+		this.gananciaBruta = g;
+	}
+
+	public void setImpuesto(double i) {
+		this.impuesto = i;
+	}
+
+	public void setGananciaNeta(double g) {
+		this.gananciaNeta = g;
+	}
+
+	public void setValorFuturo(double v) {
+		this.valorFuturo = v;
+	}
+
+	public Inversion getInversionObj() {
+		return inversion;
+	}
+
+	public void setInversionObj(Inversion inv) {
+		this.inversion = inv;
+	}
+
+	@Override
+	public String toString() {
+		return super.toString() + " | " + inversion.toString() + " | CDT [gananciaBruta=" + gananciaBruta
+				+ ", impuesto=" + impuesto + ", gananciaNeta=" + gananciaNeta + ", valorFuturo=" + valorFuturo + "]";
+	}
 }
