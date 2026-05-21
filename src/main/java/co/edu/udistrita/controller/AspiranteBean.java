@@ -1,43 +1,44 @@
-// Autor: Pedro Suarez
 package co.edu.udistrita.controller;
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.ArrayList;
 
-import co.edu.udistrital.model.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import co.edu.udistrital.Aspiranteservice.AspiranteService;
+import co.edu.udistrital.model.Aspirante;
+import co.edu.udistrital.model.ProgAcad;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 
 @Named("asp")
 @SessionScoped
 public class AspiranteBean implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 1L;
-    private Aspirante dto = new Aspirante();
-    private ArrayList<Aspirante> listaAs = AspiranteDAO.lista_A;
-    private ArrayList<ProgAcad> listaPa = ProgAcadDAO.lista_P;
+	private Aspirante dto = new Aspirante();
+	private AspiranteService service = new AspiranteService();
 
-    public AspiranteBean() {
-        ProgAcadDAO.cargaDatos();
-    }
+	public AspiranteBean() {
+		service.cargarDatos();
+	}
 
-    public Aspirante getDto() { return dto; }
-    public void setDto(Aspirante dto) { this.dto = dto; }
-    public ArrayList<Aspirante> getListaAs() { return listaAs; }
-    public void setListaAs(ArrayList<Aspirante> listaAs) { this.listaAs = listaAs; }
-    public ArrayList<ProgAcad> getListaPa() { return listaPa; }
-    public void setListaPa(ArrayList<ProgAcad> listaPa) { this.listaPa = listaPa; }
+	public Aspirante getDto() {
+		return dto;
+	}
 
-    public String registrar() {
-        dto.setFecha_reg(LocalDate.now());
-        for (ProgAcad p : listaPa) {
-            if (p.getCod() == dto.getPro_acad().getCod()) {
-                dto.setPro_acad(p);
-                break;
-            }
-        }
-        listaAs.add(dto);
-        dto = new Aspirante(); //aqui reinicio el formulario
-        return null;
-    }
+	public void setDto(Aspirante dto) {
+		this.dto = dto;
+	}
+
+	public ArrayList<Aspirante> getListaAs() {
+		return service.getListaAs();
+	}
+
+	public ArrayList<ProgAcad> getListaPa() {
+		return service.getListaPa();
+	}
+
+	public String registrar() {
+		service.registrar(dto);
+		dto = new Aspirante(); // reinicia el formulario
+		return null;
+	}
 }

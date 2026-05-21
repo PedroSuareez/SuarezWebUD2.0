@@ -2,105 +2,123 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>Registro de Aspirante</title>
-  <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
-  <style>
-    .error { color: red; font-size: 0.85em; }
-  </style>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Registro de Aspirante</title>
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+	<style>
+.error {
+	color: red;
+	font-size: 0.85em;
+}
+</style>
 </h:head>
 
 <h:body>
-  <div class="container mt-4" style="max-width: 600px;">
-    <h2 class="mb-4">Registro de Aspirante Universitario</h2>
+	<div class="container mt-4" style="max-width: 600px;">
+		<h2 class="mb-4">Registro de Aspirante Universitario</h2>
 
-    <h:form>
+		<h:form>
 
-      <div class="mb-3">
-        <h:outputLabel for="id_p" value="No. Identificación:" styleClass="form-label" />
-        <h:inputText id="id_p" value="#{asp.dto.id_p}" required="true"
-                     requiredMessage="La identificación es obligatoria."
-                     styleClass="form-control" />
-        <h:message for="id_p" styleClass="error" />
-      </div>
+			<div class="mb-3">
+				<h:outputLabel for="id_p" value="No. Identificación:"
+					styleClass="form-label" />
+				<h:inputText id="id_p" value="#{asp.dto.id_p}" required="true"
+					requiredMessage="La identificación es obligatoria."
+					styleClass="form-control">
+					<f:convertNumber integerOnly="true" />
+					<f:validateLongRange minimum="10000000" maximum="99999999999" />
+				</h:inputText>
+				<h:message for="id_p" styleClass="error" />
+			</div>
 
-      <div class="mb-3">
-        <h:outputLabel for="nombres" value="Nombres:" styleClass="form-label" />
-        <h:inputText id="nombres" value="#{asp.dto.nombres}" required="true"
-                     requiredMessage="Los nombres son obligatorios."
-                     styleClass="form-control" />
-        <h:message for="nombres" styleClass="error" />
-      </div>
+			<div class="mb-3">
+				<h:outputLabel for="nombres" value="Nombres:"
+					styleClass="form-label" />
+				<h:inputText id="nombres" value="#{asp.dto.nombres}" required="true"
+					requiredMessage="Los nombres son obligatorios."
+					validatorMessage="Los nombres solo deben contener letras y espacios."
+					styleClass="form-control">
+					<f:validateRegex pattern="^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ ]+$" />
+				</h:inputText>
+				<h:message for="nombres" styleClass="error" />
+			</div>
 
-      <div class="mb-3">
-        <h:outputLabel for="apellidos" value="Apellidos:" styleClass="form-label" />
-        <h:inputText id="apellidos" value="#{asp.dto.apellidos}" required="true"
-                     requiredMessage="Los apellidos son obligatorios."
-                     styleClass="form-control" />
-        <h:message for="apellidos" styleClass="error" />
-      </div>
+			<div class="mb-3">
+				<h:outputLabel for="apellidos" value="Apellidos:"
+					styleClass="form-label" />
+				<h:inputText id="apellidos" value="#{asp.dto.apellidos}"
+					required="true" requiredMessage="Los apellidos son obligatorios."
+					validatorMessage="Los apellidos solo deben contener letras y espacios."
+					styleClass="form-control">
+					<f:validateRegex pattern="^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ ]+$" />
+				</h:inputText>
+				<h:message for="apellidos" styleClass="error" />
+			</div>
 
-      <div class="mb-3">
-        <h:outputLabel for="correo" value="Correo electrónico:" styleClass="form-label" />
-        <h:inputText id="correo" value="#{asp.dto.correo}" required="true"
-                     requiredMessage="El correo es obligatorio."
-                     validatorMessage="Ingrese un correo válido (debe contener @)."
-                     styleClass="form-control">
-          <f:validateRegex pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" />
-        </h:inputText>
-        <h:message for="correo" styleClass="error" />
-      </div>
+			<div class="mb-3">
+				<h:outputLabel for="telefono" value="Teléfono:"
+					styleClass="form-label" />
+				<h:inputText id="telefono" value="#{asp.dto.telefono}"
+					required="true" requiredMessage="El teléfono es obligatorio."
+					validatorMessage="El teléfono debe tener exactamente 10 dígitos numéricos."
+					styleClass="form-control">
+					<f:validateRegex pattern="^[0-9]{10}$" />
+				</h:inputText>
+				<h:message for="telefono" styleClass="error" />
+			</div>
 
-      <div class="mb-3">
-        <h:outputLabel for="telefono" value="Teléfono:" styleClass="form-label" />
-        <h:inputText id="telefono" value="#{asp.dto.telefono}" required="true"
-                     requiredMessage="El teléfono es obligatorio."
-                     validatorMessage="El teléfono solo debe contener números."
-                     styleClass="form-control">
-          <f:validateRegex pattern="^[0-9]{7,15}$" />
-        </h:inputText>
-        <h:message for="telefono" styleClass="error" />
-      </div>
+			<div class="mb-3">
+				<h:outputLabel for="correo" value="Correo electrónico:"
+					styleClass="form-label" />
+				<h:inputText id="correo" value="#{asp.dto.correo}" required="true"
+					requiredMessage="El correo es obligatorio."
+					validatorMessage="Ingrese un correo válido (ej: usuario@dominio.com)."
+					styleClass="form-control">
+					<f:validateRegex
+						pattern="^[a-zA-Z0-9._%+\-]{2,}@[a-zA-Z0-9\-]{2,}(\.[a-zA-Z]{2,})+$" />
+				</h:inputText>
+				<h:message for="correo" styleClass="error" />
+			</div>
+			<div class="mb-3">
+				<h:outputLabel for="pro_aca" value="Programa Académico:"
+					styleClass="form-label" />
+				<h:selectOneMenu id="pro_aca" value="#{asp.dto.pro_acad.cod}"
+					required="true" requiredMessage="Seleccione un programa académico."
+					styleClass="form-select">
+					<f:selectItem itemValue="-1" itemLabel="-- Seleccione --"
+						noSelectionOption="true" />
+					<f:selectItems value="#{asp.listaPa}" var="p" itemValue="#{p.cod}"
+						itemLabel="#{p.nombre_prog}" />
+				</h:selectOneMenu>
+				<h:message for="pro_aca" styleClass="error" />
+			</div>
 
-      <div class="mb-3">
-        <h:outputLabel for="pro_aca" value="Programa Académico:" styleClass="form-label" />
-        <h:selectOneMenu id="pro_aca" value="#{asp.dto.pro_acad.cod}" required="true"
-                         requiredMessage="Seleccione un programa académico."
-                         styleClass="form-select">
-          <f:selectItem itemValue="-1" itemLabel="-- Seleccione --" noSelectionOption="true" />
-          <f:selectItems value="#{asp.listaPa}" var="p"
-                         itemValue="#{p.cod}" itemLabel="#{p.nombre_prog}" />
-        </h:selectOneMenu>
-        <h:message for="pro_aca" styleClass="error" />
-      </div>
+			<h:commandButton value="Registrar" action="#{asp.registrar}"
+				styleClass="btn btn-primary">
+				<f:ajax execute="@form" render="@form" />
+			</h:commandButton>
 
-      <h:commandButton value="Registrar" action="#{asp.registrar}"
-                       styleClass="btn btn-primary">
-        <f:ajax execute="@form" render="@form" />
-      </h:commandButton>
+			<h:panelGroup rendered="#{asp.listaAs.size() > 0}">
+				<div class="alert alert-success mt-3">Aspirante registrado
+					correctamente. Total registrados: #{asp.listaAs.size()}</div>
+			</h:panelGroup>
 
-      <h:panelGroup rendered="#{asp.listaAs.size() > 0}">
-        <div class="alert alert-success mt-3">
-           Aspirante registrado correctamente. Total registrados: #{asp.listaAs.size()}
-        </div>
-      </h:panelGroup>
+		</h:form>
 
-    </h:form>
+		<div class="mt-3 mb-5 pb-4">
+			<a href="../index.xhtml" class="btn btn-secondary btn-sm">←
+				Inicio Programa</a> <a href="admin.xhtml"
+				class="btn btn-outline-primary btn-sm ms-2">Ver listado admin →</a>
+		</div>
+	</div>
 
-<div class="mt-3 mb-5 pb-4">
-    <a href="../index.xhtml" class="btn btn-secondary btn-sm">← Inicio Programa</a>
-    <a href="admin.xhtml" class="btn btn-outline-primary btn-sm ms-2">Ver listado admin →</a>
-</div>
-  </div>
-
-  <footer class="fixed-bottom bg-dark text-white text-center py-2">
-    Pedro Suarez &nbsp;|&nbsp; Programación Avanzada &nbsp;|&nbsp;
-    302 &nbsp;|&nbsp; Universidad Distrital &nbsp;|&nbsp; 2026
-  </footer>
+	<footer class="fixed-bottom bg-dark text-white text-center py-2">
+	Pedro Suarez &nbsp;|&nbsp; Programación Avanzada &nbsp;|&nbsp; 302
+	&nbsp;|&nbsp; Universidad Distrital &nbsp;|&nbsp; 2026 </footer>
 </h:body>
 </html>
